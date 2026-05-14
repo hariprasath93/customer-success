@@ -1,0 +1,1168 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Account Won — Convergence</title>
+
+<!-- =================================================================
+     SHARING PREVIEW (Open Graph / Twitter Cards)
+     EDIT these so when you paste the link in LinkedIn / Slack / iMessage,
+     it shows a nice card. og:image should be a 1200x630 PNG you upload
+     alongside this HTML file (or any public URL).
+     ================================================================= -->
+<meta property="og:title"       content="How we won Symbotic" />
+<meta property="og:description" content="Three years. Eighteen turning points. One PO. The story of how the team came together to win the Symbotic camera deal." />
+<meta property="og:image"       content="https://hariprasath93.github.io/customer-success/images/04-rewiring-the-camera.jpg" />
+<meta property="og:url"         content="https://hariprasath93.github.io/customer-success/" />
+<meta property="og:type"        content="website" />
+<meta name="twitter:card"       content="summary_large_image" />
+<meta name="description"        content="Three years. Eighteen turning points. One PO. The story of how the team came together to win the Symbotic camera deal." />
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=Cormorant+Garamond:ital,wght@0,600;1,500;1,600&display=swap" rel="stylesheet">
+
+<style>
+  /* =================================================================
+     TEMPLATE E — "CONVERGENCE" (Enhanced)
+     Each contributor is a stream that ENTERS the river at the milestone
+     they first joined, then travels forward to the WIN.
+     Features:
+       - Time-proportional spacing (milestones placed by real elapsed time)
+       - Real photos (optional) with initials fallback
+       - Story moments along streams (optional) with hover tooltips
+       - Replay button to rewatch the animation
+       - Confetti finale when streams converge
+       - Customer logo inside the WIN burst (optional)
+       - OG/Twitter sharing meta tags
+     EDIT YOUR DATA in <script id="data"> near the bottom.
+     ================================================================= */
+  :root {
+    --bg: #0a0e1a;
+    --surface: #131826;
+    --ink: #f5f7fb;
+    --muted: #8b96a8;
+    --gold: #f4d568;
+    --gold-2: #e8b933;
+    --line: rgba(255,255,255,0.08);
+  }
+  * { box-sizing: border-box; }
+  html, body { margin: 0; padding: 0; }
+  body {
+    font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+    background:
+      radial-gradient(1200px 600px at 80% 50%, rgba(244,213,104,0.06), transparent),
+      radial-gradient(900px 500px at 20% 30%, rgba(99,102,241,0.05), transparent),
+      var(--bg);
+    color: var(--ink);
+    line-height: 1.6;
+    min-height: 100vh;
+    overflow-x: hidden;
+  }
+
+  /* Hero */
+  .hero { text-align: center; padding: 80px 24px 24px; }
+  .badge {
+    display: inline-flex; align-items: center; gap: 8px;
+    font-size: 11px; letter-spacing: 0.25em; text-transform: uppercase;
+    color: var(--gold); padding: 6px 16px; border: 1px solid var(--gold);
+    border-radius: 999px; background: rgba(244,213,104,0.05);
+    font-weight: 600; margin-bottom: 24px;
+  }
+  h1 {
+    font-size: clamp(40px, 6vw, 72px); font-weight: 800;
+    margin: 0 0 16px; letter-spacing: -0.025em; line-height: 1.05;
+  }
+  h1 em {
+    font-family: 'Cormorant Garamond', serif; font-weight: 600; font-style: italic;
+    background: linear-gradient(135deg, var(--gold), #ffeaa0);
+    -webkit-background-clip: text; background-clip: text; color: transparent;
+  }
+  .hero p {
+    color: var(--muted); max-width: 680px; margin: 0 auto;
+    font-size: 16px; font-weight: 300;
+  }
+
+  /* Stats */
+  .stats {
+    display: flex; flex-wrap: wrap; justify-content: center; gap: 48px;
+    margin: 32px auto 0; padding: 0 24px; max-width: 900px;
+  }
+  .stat { text-align: center; }
+  .stat .v {
+    font-family: 'Cormorant Garamond', serif; font-style: italic;
+    font-size: 38px; font-weight: 600; color: var(--gold);
+  }
+  .stat .l {
+    font-size: 10px; letter-spacing: 0.25em; text-transform: uppercase;
+    color: var(--muted); font-weight: 600; margin-top: 2px;
+  }
+
+  /* STREAMS */
+  .streams-wrap {
+    position: relative; margin: 56px auto 40px;
+    max-width: 1750px; padding: 0 16px;
+  }
+  .streams-scroller {
+    overflow-x: auto; overflow-y: hidden; -webkit-overflow-scrolling: touch;
+    border-radius: 8px;
+  }
+  .streams-scroller::-webkit-scrollbar { height: 8px; }
+  .streams-scroller::-webkit-scrollbar-thumb { background: rgba(255,255,255,0.12); border-radius: 4px; }
+  .streams-inner { position: relative; min-width: 1300px; }
+  svg.streams { width: 100%; height: auto; display: block; }
+
+  /* Replay button */
+  .replay-btn {
+    position: absolute; top: 12px; right: 24px; z-index: 5;
+    background: rgba(244,213,104,0.1); color: var(--gold);
+    border: 1px solid rgba(244,213,104,0.4); border-radius: 999px;
+    padding: 8px 16px; font-family: inherit; font-size: 12px;
+    font-weight: 600; letter-spacing: 0.12em; text-transform: uppercase;
+    cursor: pointer; transition: all 0.2s; display: inline-flex;
+    align-items: center; gap: 6px;
+  }
+  .replay-btn:hover {
+    background: rgba(244,213,104,0.2); border-color: var(--gold);
+    transform: translateY(-1px);
+  }
+  .replay-btn .icon { display: inline-block; transition: transform 0.4s; }
+  .replay-btn:hover .icon { transform: rotate(-360deg); }
+
+  /* Confetti layer (overlays streams SVG exactly) */
+  .confetti-layer {
+    position: absolute; inset: 0; pointer-events: none;
+    overflow: hidden;
+  }
+  .confetti-bit {
+    position: absolute; width: 8px; height: 14px;
+    opacity: 0;
+    animation: confettiBurst 2.6s cubic-bezier(.2,.6,.4,1) forwards;
+  }
+  @keyframes confettiBurst {
+    0%   { opacity: 0; transform: translate(-50%, -50%) rotate(0); }
+    8%   { opacity: 1; }
+    100% { opacity: 0;
+           transform: translate(calc(-50% + var(--dx)), calc(-50% + var(--dy))) rotate(var(--rot)); }
+  }
+
+  /* SVG element styles */
+  .axis-line { stroke: rgba(255,255,255,0.12); stroke-width: 1; stroke-dasharray: 2 4; }
+  .m-tick    { stroke: var(--gold); stroke-width: 2; opacity: 0.7; }
+  .m-dot     { fill: var(--gold); stroke: var(--bg); stroke-width: 3; }
+  .m-date {
+    font-family: 'Cormorant Garamond', serif; font-style: italic;
+    font-size: 18px; font-weight: 600; fill: var(--gold); text-anchor: middle;
+  }
+  .m-title {
+    font-family: 'Inter', sans-serif; font-size: 13px; font-weight: 600;
+    fill: var(--muted); text-anchor: middle; letter-spacing: 0.05em;
+    text-transform: uppercase;
+  }
+  .stream {
+    fill: none; stroke-width: 3; stroke-linecap: round;
+    stroke-dasharray: 3000; stroke-dashoffset: 3000;
+    animation: draw 2.4s cubic-bezier(.55,.06,.32,.99) forwards;
+    opacity: 0.88;
+    filter: drop-shadow(0 0 6px currentColor);
+  }
+  .entry-dot {
+    stroke: var(--bg); stroke-width: 3; opacity: 0;
+    animation: pop 0.5s cubic-bezier(.34,1.56,.64,1) forwards;
+  }
+  .entry-photo {
+    opacity: 0;
+    animation: pop 0.5s cubic-bezier(.34,1.56,.64,1) forwards;
+  }
+  .entry-init {
+    fill: var(--bg); font-family: 'Inter', sans-serif;
+    font-weight: 700; font-size: 11px; text-anchor: middle;
+    opacity: 0; animation: fade 0.5s ease-out forwards;
+    pointer-events: none;
+  }
+  .entry-label {
+    font-family: 'Inter', sans-serif; font-size: 13px; font-weight: 600;
+    fill: var(--ink); text-anchor: end; opacity: 0;
+    animation: fade 0.6s ease-out forwards;
+  }
+  .entry-label-v {
+    font-family: 'Inter', sans-serif; font-size: 11px; font-weight: 600;
+    fill: var(--ink); letter-spacing: 0.02em;
+  }
+  .particle  { fill: white; filter: drop-shadow(0 0 4px currentColor); }
+
+  /* Story moment flags */
+  .moment {
+    cursor: pointer; opacity: 0;
+    animation: pop 0.5s cubic-bezier(.34,1.56,.64,1) forwards;
+    transition: transform 0.18s;
+    transform-box: fill-box; transform-origin: center;
+  }
+  .moment:hover { transform: scale(1.35); }
+  .moment-pulse {
+    transform-origin: center; transform-box: fill-box;
+    animation: pulse 1.8s ease-in-out infinite;
+  }
+  @keyframes pulse {
+    0%, 100% { opacity: 0.5; transform: scale(1); }
+    50%      { opacity: 0; transform: scale(2.5); }
+  }
+
+  /* Custom tooltip */
+  .tip {
+    position: fixed; pointer-events: none; z-index: 1000;
+    background: rgba(10,14,26,0.96); color: var(--ink);
+    border: 1px solid rgba(244,213,104,0.3);
+    padding: 10px 14px; border-radius: 10px;
+    font-size: 13px; max-width: 280px; line-height: 1.45;
+    opacity: 0; transform: translateY(4px);
+    transition: opacity 0.15s, transform 0.15s;
+    box-shadow: 0 10px 30px rgba(0,0,0,0.5);
+  }
+  .tip.show { opacity: 1; transform: translateY(0); }
+  .tip .tip-who {
+    color: var(--gold); font-weight: 700; font-size: 11px;
+    letter-spacing: 0.1em; text-transform: uppercase; margin-bottom: 4px;
+  }
+
+  /* Win burst */
+  .win-bg {
+    fill: url(#winGlow); opacity: 0;
+    animation: fade 1s ease-out forwards 2s;
+  }
+  .win-ring {
+    fill: none; stroke: var(--gold); stroke-width: 2; opacity: 0;
+    animation: ringPop 1.2s ease-out forwards 2.2s;
+  }
+  .win-star {
+    fill: var(--gold); opacity: 0;
+    animation: pop 0.6s cubic-bezier(.34,1.56,.64,1) forwards 2.4s;
+    transform-box: fill-box; transform-origin: center;
+  }
+  .win-logo {
+    opacity: 0;
+    animation: pop 0.6s cubic-bezier(.34,1.56,.64,1) forwards 2.4s;
+  }
+  .win-text {
+    font-family: 'Cormorant Garamond', serif; font-style: italic;
+    font-weight: 600; fill: var(--gold); text-anchor: middle;
+    opacity: 0; animation: fade 1s ease-out forwards 2.6s;
+  }
+  .win-sub {
+    font-family: 'Inter', sans-serif; font-weight: 600; font-size: 11px;
+    letter-spacing: 0.3em; text-transform: uppercase; fill: var(--muted);
+    text-anchor: middle; opacity: 0;
+    animation: fade 1s ease-out forwards 2.6s;
+  }
+
+  @keyframes draw   { to { stroke-dashoffset: 0; } }
+  @keyframes fade   { to { opacity: 1; } }
+  @keyframes pop    { 0% { opacity: 0; transform: scale(0); } 70% { opacity: 1; transform: scale(1.2); } 100% { opacity: 1; transform: scale(1); } }
+  @keyframes ringPop{ 0% { opacity: 0; r: 30; } 60% { opacity: 1; } 100% { opacity: 0.3; r: 90; } }
+
+  /* ===== Key Moments slider ===== */
+  .moments-section {
+    max-width: 1100px;
+    margin: 0 auto;
+    padding: 80px 24px 20px;
+  }
+  .moments-carousel { margin-top: 32px; }
+  .moments-stage {
+    position: relative;
+    border-radius: 16px;
+    overflow: hidden;
+    background: var(--surface);
+    aspect-ratio: 16/9;
+    box-shadow: 0 20px 60px rgba(0,0,0,0.5);
+    border: 1px solid var(--line);
+  }
+  .m-slide-wrap { position: relative; width: 100%; height: 100%; }
+  .m-slide {
+    position: absolute; inset: 0;
+    background-size: cover;
+    background-position: center;
+    background-color: var(--surface);
+    opacity: 0; transform: scale(1.04);
+    transition: opacity 0.6s ease, transform 0.9s ease;
+  }
+  .m-slide.active { opacity: 1; transform: scale(1); }
+  video.m-slide { width: 100%; height: 100%; object-fit: cover; }
+  .m-nav {
+    position: absolute; top: 50%;
+    transform: translateY(-50%); z-index: 10;
+    background: rgba(0,0,0,0.55);
+    border: 1px solid rgba(244,213,104,0.35);
+    color: var(--gold);
+    font-size: 22px; line-height: 1;
+    width: 44px; height: 44px;
+    border-radius: 50%;
+    cursor: pointer;
+    transition: all 0.2s;
+    backdrop-filter: blur(8px);
+    display: flex; align-items: center; justify-content: center;
+    padding: 0;
+    font-family: inherit;
+  }
+  .m-nav:hover {
+    background: rgba(244,213,104,0.2);
+    border-color: var(--gold);
+    transform: translateY(-50%) scale(1.05);
+  }
+  .m-prev { left: 16px; }
+  .m-next { right: 16px; }
+  .m-counter {
+    position: absolute;
+    top: 16px; right: 16px; z-index: 10;
+    background: rgba(0,0,0,0.6);
+    color: var(--gold);
+    padding: 6px 12px;
+    border-radius: 999px;
+    font-size: 11px; font-weight: 700;
+    letter-spacing: 0.15em;
+    backdrop-filter: blur(8px);
+    font-family: 'Inter', sans-serif;
+  }
+  .m-overlay {
+    position: absolute;
+    left: 0; right: 0; bottom: 0;
+    padding: 32px;
+    z-index: 5;
+    background: linear-gradient(to bottom, transparent, rgba(10,14,26,0.92));
+    pointer-events: none;
+  }
+  .m-meta-date {
+    font-family: 'Cormorant Garamond', serif;
+    font-style: italic;
+    color: var(--gold);
+    font-size: 18px;
+    margin-bottom: 4px;
+  }
+  .m-meta-title {
+    font-size: clamp(20px, 2.4vw, 28px);
+    font-weight: 700;
+    margin: 0;
+    color: var(--ink);
+    letter-spacing: -0.01em;
+  }
+  .m-meta-below {
+    text-align: center;
+    margin: 24px auto 0;
+    max-width: 720px;
+  }
+  .m-caption {
+    color: var(--muted);
+    font-weight: 300;
+    line-height: 1.6;
+    margin: 0;
+    font-size: 15px;
+  }
+  .m-people {
+    display: flex; flex-wrap: wrap; justify-content: center;
+    gap: 8px; margin-top: 14px;
+  }
+  .m-chip {
+    display: inline-flex; align-items: center;
+    font-size: 12px;
+    background: rgba(244,213,104,0.1);
+    color: var(--gold);
+    padding: 4px 12px;
+    border-radius: 999px;
+    font-weight: 600;
+    border: 1px solid rgba(244,213,104,0.25);
+  }
+  .m-dots {
+    display: flex; justify-content: center;
+    gap: 8px; margin-top: 24px;
+  }
+  .m-dot {
+    width: 8px; height: 8px;
+    border-radius: 50%;
+    background: rgba(255,255,255,0.2);
+    cursor: pointer;
+    transition: all 0.2s;
+    border: 0; padding: 0;
+  }
+  .m-dot:hover { background: rgba(244,213,104,0.5); }
+  .m-dot.active {
+    background: var(--gold);
+    transform: scale(1.3);
+    box-shadow: 0 0 12px rgba(244,213,104,0.6);
+  }
+  .m-filmstrip {
+    display: flex;
+    gap: 8px;
+    margin-top: 24px;
+    padding: 4px;
+    overflow-x: auto;
+    -webkit-overflow-scrolling: touch;
+    scrollbar-width: thin;
+  }
+  .m-filmstrip::-webkit-scrollbar { height: 6px; }
+  .m-filmstrip::-webkit-scrollbar-thumb { background: rgba(255,255,255,0.15); border-radius: 3px; }
+  .m-thumb {
+    flex: 0 0 auto;
+    width: 96px; height: 56px;
+    background-size: cover;
+    background-position: center;
+    background-color: var(--surface);
+    border-radius: 6px;
+    cursor: pointer;
+    opacity: 0.45;
+    transition: opacity 0.2s, transform 0.2s, border-color 0.2s;
+    border: 2px solid transparent;
+  }
+  .m-thumb:hover { opacity: 0.85; }
+  .m-thumb.active {
+    opacity: 1;
+    border-color: var(--gold);
+    transform: scale(1.06);
+  }
+  .m-meta-anim { animation: mFade 0.5s ease forwards; }
+  @keyframes mFade {
+    0%   { opacity: 0; transform: translateY(6px); }
+    100% { opacity: 1; transform: translateY(0); }
+  }
+  @media (max-width: 640px) {
+    .m-overlay { padding: 20px 16px; }
+    .m-nav { width: 36px; height: 36px; font-size: 18px; }
+    .m-thumb { width: 72px; height: 42px; }
+  }
+
+  /* Contributors gallery */
+  section.contributors {
+    max-width: 1100px; margin: 0 auto; padding: 60px 24px;
+  }
+  .section-head { text-align: center; margin-bottom: 40px; }
+  .section-eyebrow {
+    font-size: 11px; letter-spacing: 0.3em; color: var(--gold);
+    text-transform: uppercase; font-weight: 600; margin-bottom: 8px;
+  }
+  .section-title {
+    font-size: clamp(28px, 4vw, 42px); font-weight: 800;
+    margin: 0; letter-spacing: -0.02em;
+  }
+  .section-title em {
+    font-family: 'Cormorant Garamond', serif; font-style: italic;
+    color: var(--gold); font-weight: 600;
+  }
+  .grid {
+    display: grid; grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+    gap: 16px; margin-top: 32px;
+  }
+  .pcard {
+    background: var(--surface); border: 1px solid var(--line);
+    border-radius: 14px; padding: 20px; position: relative;
+    overflow: hidden; transition: transform 0.2s, border-color 0.2s;
+  }
+  .pcard:hover { transform: translateY(-3px); border-color: rgba(244,213,104,0.4); }
+  .pcard .stripe {
+    position: absolute; top: 0; left: 0; bottom: 0; width: 4px;
+  }
+  .pcard-head { display: flex; align-items: center; gap: 14px; margin-bottom: 14px; }
+  .pcard .avatar {
+    width: 46px; height: 46px; border-radius: 50%;
+    display: flex; align-items: center; justify-content: center;
+    color: var(--bg); font-weight: 700; font-size: 18px;
+    flex-shrink: 0; overflow: hidden;
+    background-size: cover; background-position: center;
+  }
+  .pcard h4 { margin: 0 0 2px; font-size: 16px; font-weight: 700; }
+  .pcard .role {
+    font-size: 11px; color: var(--muted); text-transform: uppercase;
+    letter-spacing: 0.12em; font-weight: 600;
+  }
+  .pcard .joined {
+    font-size: 11px; color: var(--gold); margin-top: 4px;
+    font-style: italic; font-family: 'Cormorant Garamond', serif;
+  }
+  .pcard .contrib {
+    font-size: 13px; color: var(--muted); line-height: 1.5; font-weight: 300;
+  }
+
+  /* Closing */
+  .closing {
+    text-align: center; max-width: 700px; margin: 40px auto; padding: 40px 24px;
+  }
+  .closing blockquote {
+    font-family: 'Cormorant Garamond', serif; font-style: italic;
+    font-size: clamp(20px, 2.6vw, 30px); margin: 0 0 16px; line-height: 1.4;
+  }
+  .closing .by {
+    font-size: 12px; letter-spacing: 0.2em; text-transform: uppercase;
+    color: var(--gold); font-weight: 600;
+  }
+
+  footer {
+    text-align: center; padding: 40px 24px 60px; color: var(--muted);
+    font-size: 11px; letter-spacing: 0.2em; text-transform: uppercase;
+    font-weight: 600; border-top: 1px solid var(--line);
+  }
+</style>
+</head>
+<body>
+
+<header class="hero">
+  <div class="badge" id="badge"></div>
+  <h1 id="hero-title"></h1>
+  <p id="hero-subtitle"></p>
+</header>
+
+<div class="stats" id="stats"></div>
+
+<div class="streams-wrap">
+  <button class="replay-btn" id="replay" type="button">
+    <span class="icon">&#x21bb;</span> Replay
+  </button>
+  <div class="streams-scroller">
+    <div class="streams-inner">
+      <svg class="streams" id="streams" xmlns="http://www.w3.org/2000/svg"></svg>
+      <div class="confetti-layer" id="confetti"></div>
+    </div>
+  </div>
+</div>
+
+<div id="tip" class="tip" role="tooltip"></div>
+
+<section class="moments-section" id="momentsSection">
+  <div class="section-head">
+    <div class="section-eyebrow">Key Moments</div>
+    <h2 class="section-title">Relive the <em>journey</em></h2>
+  </div>
+  <div class="moments-carousel">
+    <div class="moments-stage">
+      <div class="m-slide-wrap" id="momentsWrap"></div>
+      <div class="m-counter" id="mCounter">1 / 1</div>
+      <button class="m-nav m-prev" id="mPrev" type="button" aria-label="Previous moment">&#x2039;</button>
+      <button class="m-nav m-next" id="mNext" type="button" aria-label="Next moment">&#x203a;</button>
+      <div class="m-overlay">
+        <div class="m-meta-date"  id="mDate"></div>
+        <h3 class="m-meta-title"  id="mTitle"></h3>
+      </div>
+    </div>
+    <div class="m-meta-below">
+      <p class="m-caption" id="mCaption"></p>
+      <div class="m-people" id="mPeople"></div>
+    </div>
+    <div class="m-dots" id="mDots"></div>
+    <div class="m-filmstrip" id="mFilmstrip"></div>
+  </div>
+</section>
+
+<section class="closing">
+  <blockquote id="quote-text"></blockquote>
+  <div class="by" id="quote-by"></div>
+</section>
+
+<footer id="footer"></footer>
+
+<!-- =====================================================================
+     EDIT YOUR DATA HERE
+     - accountName + customerLogoUrl: shown inside the WIN burst
+     - milestones[]: date can be "Aug 2025", "August 2025", or any string
+       Date.parse understands. Spacing on the chart is by real elapsed time.
+     - people[]: each person has:
+         joinedAt   (number, index into milestones[]) — when their stream enters
+         photoUrl   (optional) — used in entry dot AND contributor card
+         moments[]  (optional) — story callouts pinned at a milestone:
+                                 { "at": 2, "text": "..." }
+     ===================================================================== -->
+<script id="data" type="application/json">
+{
+  "badgeText": "Account Won — May 2026",
+  "heroTitle": "We won <em>Symbotic</em>",
+  "heroSubtitle": "From May 2023 to May 2026 — the story of how the team came together to win the Symbotic camera deal. The names below are a reminder of who was there at each turn.",
+  "accountName": "Symbotic",
+  "customerLogoUrl": "",
+  "stats": [
+    { "value": "340K", "label": "Cameras" },
+    { "value": "1000", "label": "Pilot Robots" },
+    { "value": "3 yr", "label": "Journey" }
+  ],
+  "milestones": [
+    { "date": "May 2023", "name": "The Start" },
+    { "date": "Jul 2023", "name": "First Visit to HQ" },
+    { "date": "Aug 2023", "name": "Finding the Camera" },
+    { "date": "Apr 2024", "name": "Amado Meeting" },
+    { "date": "May 2024", "name": "Hot Plug Hackathon" },
+    { "date": "Sep 2024", "name": "Walmart DC Access" },
+    { "date": "Dec 2024", "name": "Pilot PO · 1000 Robots" },
+    { "date": "Apr 2025", "name": "Impedance Mismatch" },
+    { "date": "May 2025", "name": "Board Redesign" },
+    { "date": "Jun 2025", "name": "340K Cameras" },
+    { "date": "Jun 2025", "name": "Capacitor Blow" },
+    { "date": "Jul 2025", "name": "Shrapnel Microscopy" },
+    { "date": "Aug 2025", "name": "Teddy's Second Chance" },
+    { "date": "Sep 2025", "name": "Signs of Greatness" },
+    { "date": "Nov 2025", "name": "Teddy Accepts Success" },
+    { "date": "Mar 2026", "name": "V1 AA Lens Solved" },
+    { "date": "Apr 2026", "name": "Holding the Fort" },
+    { "date": "May 2026", "name": "The PO" }
+  ],
+  "people": [
+    { "name": "Ragav",        "role": "Co-pursuit Lead",   "joinedAt": 0,  "photoUrl": "", "contribution": "Co-led the very first pursuit alongside Hariprasath in May 2023." },
+    {
+      "name": "Hariprasath",  "role": "Account Owner",     "joinedAt": 0,  "photoUrl": "",
+      "contribution": "Owned the account end-to-end for three years. Every key customer visit, every escalation, every meeting.",
+      "moments": [
+        { "at": 3,  "text": "Met Amado face to face for the first time." },
+        { "at": 5,  "text": "Onsite at the Walmart DC in Florida — rewired 4 cameras by hand to land the demo." },
+        { "at": 6,  "text": "Pilot PO landed — 1000 robots." },
+        { "at": 12, "text": "Made the case to Teddy. Got one more chance." },
+        { "at": 17, "text": "The PO arrived." }
+      ]
+    },
+    { "name": "Gomathi",      "role": "Account Team",      "joinedAt": 1,  "photoUrl": "", "contribution": "Joined the first visit to the customer's HQ in July 2023." },
+    { "name": "Dilip",        "role": "Account Team",      "joinedAt": 1,  "photoUrl": "", "contribution": "Joined the first visit to the customer's HQ in July 2023." },
+    { "name": "Maharajan",    "role": "Account Team",      "joinedAt": 1,  "photoUrl": "", "contribution": "Joined the first visit to the customer's HQ in July 2023." },
+    {
+      "name": "Sreeram",      "role": "Hardware",          "joinedAt": 2,  "photoUrl": "",
+      "contribution": "Found the right camera that became the platform for everything that followed.",
+      "moments": [
+        { "at": 2, "text": "Identified the camera that started the story." }
+      ]
+    },
+    { "name": "Surya",        "role": "Hardware / Driver", "joinedAt": 2,  "photoUrl": "", "contribution": "Camera selection in 2023. Returned in 2024 to contribute to the driver and FOV work." },
+    {
+      "name": "Yoosuf",       "role": "Firmware",          "joinedAt": 4,  "photoUrl": "",
+      "contribution": "Built the self-recovering camera driver during the hot plug hackathon.",
+      "moments": [
+        { "at": 4, "text": "Wrote a driver that recovers itself when the camera hot-plugs." }
+      ]
+    },
+    { "name": "Akash",        "role": "Firmware",          "joinedAt": 4,  "photoUrl": "", "contribution": "Estimated FOV from the calibration file directly inside the driver." },
+    { "name": "Venkataswamy", "role": "Firmware",          "joinedAt": 4,  "photoUrl": "", "contribution": "Hot plug hackathon contributor." },
+    { "name": "Arunkumar",    "role": "Hardware",          "joinedAt": 7,  "photoUrl": "", "contribution": "Diagnosed the impedance mismatch that had been silently breaking the boards." },
+    { "name": "Sai Mukesh",   "role": "Hardware",          "joinedAt": 7,  "photoUrl": "", "contribution": "Co-diagnosed the impedance mismatch. Later supported the Teddy second-chance work." },
+    { "name": "Vivek",        "role": "PCB Design",        "joinedAt": 8,  "photoUrl": "", "contribution": "Redesigned the board for robustness ahead of the pilot." },
+    { "name": "Vignesh",      "role": "PCB Design",        "joinedAt": 8,  "photoUrl": "", "contribution": "Redesigned the board for robustness ahead of the pilot." },
+    { "name": "Jabir",        "role": "PCB Design",        "joinedAt": 8,  "photoUrl": "", "contribution": "Redesigned the board for robustness ahead of the pilot." },
+    { "name": "Anandraj",     "role": "PCB Design",        "joinedAt": 8,  "photoUrl": "", "contribution": "Redesigned the board for robustness ahead of the pilot." },
+    {
+      "name": "Karthikeyan",  "role": "Customer Success",  "joinedAt": 9,  "photoUrl": "",
+      "contribution": "Dedicated CSM for the 340,000 cameras opportunity.",
+      "moments": [
+        { "at": 9, "text": "Surfaced the 340K cameras interest. Became our dedicated CSM." }
+      ]
+    },
+    { "name": "Nish",         "role": "Hardware",          "joinedAt": 10, "photoUrl": "", "contribution": "Led the investigation of the pilot capacitor blow at the Walmart DC." },
+    {
+      "name": "SP",           "role": "Failure Analysis",  "joinedAt": 11, "photoUrl": "",
+      "contribution": "Microscopic investigation of the shrapnels that were blowing cameras inside the warehouse.",
+      "moments": [
+        { "at": 11, "text": "Spotted the shrapnels under the microscope." }
+      ]
+    },
+    { "name": "Ashok",        "role": "Failure Analysis",  "joinedAt": 11, "photoUrl": "", "contribution": "Microscopic investigation of the camera-blowing shrapnels." },
+    { "name": "Mahi",         "role": "Failure Analysis",  "joinedAt": 11, "photoUrl": "", "contribution": "Microscopic investigation of the camera-blowing shrapnels." },
+    { "name": "Ranjith",      "role": "Failure Analysis",  "joinedAt": 11, "photoUrl": "", "contribution": "Microscopic investigation of the camera-blowing shrapnels." },
+    { "name": "Maha",         "role": "Customer-facing",   "joinedAt": 12, "photoUrl": "", "contribution": "Worked the Teddy second-chance negotiations through to acceptance." },
+    {
+      "name": "Arun",         "role": "Optics",            "joinedAt": 15, "photoUrl": "",
+      "contribution": "Solved the V1 AA lens problem that had blocked us for months.",
+      "moments": [
+        { "at": 15, "text": "V1 AA lens cracked." }
+      ]
+    },
+    { "name": "Nanda",        "role": "Field Engineer",    "joinedAt": 16, "photoUrl": "", "contribution": "Held the fort at Symbotic during the retrofit campaign." },
+    { "name": "Yugesh",       "role": "Field Engineer",    "joinedAt": 16, "photoUrl": "", "contribution": "Held the fort at Symbotic during the retrofit campaign." },
+    { "name": "Vel",          "role": "Field Engineer",    "joinedAt": 16, "photoUrl": "", "contribution": "Held the fort at Symbotic during the retrofit campaign." }
+  ],
+  "keyMoments": [
+    {
+      "imageUrl": "./images/01-amado-first-email.png",
+      "date": "9 May 2023",
+      "title": "Amado's First Email",
+      "caption": "\"Hello, I am shopping for camera modules and was wondering if I could get in touch with someone at e-con Systems...\" — the very first inbound. Account: Symbotic. Contact: Amado.",
+      "people": ["Ragav", "Hariprasath"]
+    },
+    {
+      "imageUrl": "./images/02-camera-requirements.png",
+      "date": "2023",
+      "title": "Camera Requirements",
+      "caption": "Software (Single Channel Reset, Failsafe Routine). Hardware (8-camera synchronization, FPD Link III, C-coded Fakra). Mechanical (same form-factor, lens focusing & gluing). The full picture of what they needed.",
+      "people": ["Sreeram", "Surya"]
+    },
+    {
+      "imageUrl": "./images/03-proving-camera-poster.jpg",
+      "videoUrl": "./images/03-proving-camera.mp4",
+      "date": "May 2024",
+      "title": "Proving the Camera",
+      "caption": "From the hot plug hackathon — self-recovering camera driver, FOV estimation from the calibration file. Watch the camera prove itself.",
+      "people": ["Yoosuf", "Akash", "Venkataswamy", "Surya"]
+    },
+    {
+      "imageUrl": "./images/04-rewiring-the-camera.jpg",
+      "date": "Sep 2024",
+      "title": "Rewiring at the Walmart DC",
+      "caption": "Onsite in Florida. Four cameras rewired by hand to land the demo.",
+      "people": ["Hariprasath"]
+    },
+    {
+      "imageUrl": "./images/05a-ots-into-robot.jpg",
+      "date": "Sep 2024",
+      "title": "Off-the-Shelf, Into the Robot",
+      "caption": "First time our camera went into one of their robots. Looks like it belongs there.",
+      "people": ["Hariprasath"]
+    },
+    {
+      "imageUrl": "./images/05b-symbotic-realscale-poster.jpg",
+      "videoUrl": "./images/05b-symbotic-realscale.mp4",
+      "date": "Sep 2024",
+      "title": "Symbotic at Real Scale",
+      "caption": "The scale of what we were shipping into. Every bot in here will eventually carry our cameras.",
+      "people": ["Hariprasath"]
+    },
+    {
+      "imageUrl": "./images/06-po-started-email.png",
+      "date": "3 Dec 2024",
+      "title": "\"I Will Get the PO Started!\"",
+      "caption": "Amado's reply: customization plus the 1,000-robot pilot, officially on. \"Our team may be little aggressive for next few weeks — requesting your team's full support to bear the heat.\"",
+      "people": ["Hariprasath", "Nish"]
+    },
+    {
+      "imageUrl": "./images/07-capacitor-decoding.jpg",
+      "date": "Jul 2025",
+      "title": "Decoding the Capacitor",
+      "caption": "Under the microscope. The shrapnels that were blowing our cameras inside the warehouse — finally identified.",
+      "people": ["SP", "Ashok", "Mahi", "Ranjith", "Nish"]
+    },
+    {
+      "imageUrl": "./images/08-h-vision-performance.png",
+      "date": "Oct 2025",
+      "title": "The Camera Proves Itself",
+      "caption": "Distinct H Bots per day across the fleet — v2.014.0-econ to v2.014.2-econ — running at over 99.9% VA performance. The e-con camera, leading.",
+      "people": []
+    }
+  ],
+  "peopleEyebrow": "The Twenty-Seven",
+  "quote": "Three years. Eighteen turning points. One PO. This is what a whole company showing up looks like.",
+  "quoteBy": "— The Symbotic Team",
+  "footerText": "Congratulations, Team."
+}
+</script>
+
+<script>
+  const DATA = JSON.parse(document.getElementById('data').textContent);
+
+  // ---------- Helpers ----------
+  function parseDate(s) {
+    if (!s) return new Date();
+    const MONTHS = {jan:0,feb:1,mar:2,apr:3,may:4,jun:5,jul:6,aug:7,sep:8,oct:9,nov:10,dec:11,
+                    january:0,february:1,march:2,april:3,june:5,july:6,august:7,
+                    september:8,october:9,november:10,december:11};
+    const parts = String(s).trim().toLowerCase().split(/[\s,]+/);
+    if (parts.length === 2) {
+      const m = MONTHS[parts[0]];
+      const y = parseInt(parts[1]);
+      if (m !== undefined && y) return new Date(y, m, 1);
+    }
+    const d = new Date(s);
+    return isNaN(d) ? new Date() : d;
+  }
+  const colorFor = (i, n) => `hsl(${Math.round(i * 360 / n)}, 78%, 65%)`;
+
+  // ---------- Static page content ----------
+  document.getElementById('badge').textContent = DATA.badgeText || '';
+  document.getElementById('hero-title').innerHTML = DATA.heroTitle || '';
+  document.getElementById('hero-subtitle').textContent = DATA.heroSubtitle || '';
+  document.getElementById('stats').innerHTML = (DATA.stats || []).map(s =>
+    `<div class="stat"><div class="v">${s.value}</div><div class="l">${s.label}</div></div>`).join('');
+  document.getElementById('quote-text').textContent = DATA.quote ? `"${DATA.quote}"` : '';
+  document.getElementById('quote-by').textContent   = DATA.quoteBy || '';
+  document.getElementById('footer').textContent     = DATA.footerText || '';
+
+  // ---------- Layout (VERTICAL — time flows top → bottom, converges at the WIN) ----------
+  const N = DATA.milestones.length;
+  const P = DATA.people.length;
+
+  const padL = 160, padR = 60;
+  const padTop = 140, padBot = 260;
+  const colStepMin = 42;
+  const W = Math.max(1080, padL + colStepMin * (P + 1) + padR);
+
+  // Time-proportional milestone Y positions
+  const mDates = DATA.milestones.map(m => parseDate(m.date));
+  const firstT = mDates[0].getTime();
+  const lastT  = mDates[mDates.length - 1].getTime();
+  const span   = Math.max(1, lastT - firstT);
+  const MS_PER_MONTH = 1000 * 60 * 60 * 24 * 30.4375;
+  const months = span / MS_PER_MONTH;
+  const usableH = Math.max(900, months * 52);  // ~52px per month, min 900
+  let milestoneY = mDates.map(d => padTop + ((d.getTime() - firstT) / span) * usableH);
+  // enforce minimum vertical gap so labels don't overlap
+  const MIN_GAP_Y = 78;
+  for (let i = 1; i < milestoneY.length; i++) {
+    if (milestoneY[i] - milestoneY[i-1] < MIN_GAP_Y) milestoneY[i] = milestoneY[i-1] + MIN_GAP_Y;
+  }
+  const H = milestoneY[N - 1] + padBot;
+
+  const winX = W / 2;
+  const winY = H - 140;
+
+  // Force inner container to natural width so labels stay readable
+  document.querySelector('.streams-inner').style.minWidth = W + 'px';
+
+  // Contributor columns
+  const colStep = (W - padL - padR) / (P + 1);
+  const people = DATA.people.map((p, i) => ({
+    ...p,
+    idx: i,
+    color: colorFor(i, P),
+    colX: padL + (i + 1) * colStep,
+    entryY: milestoneY[Math.min(p.joinedAt, N - 1)]
+  }));
+
+  // ---------- Build SVG content ----------
+  function buildSVG() {
+    let defs = `<defs>
+      <radialGradient id="winGlow" cx="0.5" cy="0.5" r="0.5">
+        <stop offset="0%"   stop-color="#f4d568" stop-opacity="0.7"/>
+        <stop offset="40%"  stop-color="#f4d568" stop-opacity="0.2"/>
+        <stop offset="100%" stop-color="#f4d568" stop-opacity="0"/>
+      </radialGradient>`;
+    // photo clip-paths
+    people.forEach(p => {
+      if (p.photoUrl) {
+        defs += `<clipPath id="ph-${p.idx}"><circle cx="${p.colX}" cy="${p.entryY}" r="11"/></clipPath>`;
+      }
+    });
+    if (DATA.customerLogoUrl) {
+      defs += `<clipPath id="logoClip"><circle cx="${winX}" cy="${winY}" r="34"/></clipPath>`;
+    }
+    defs += '</defs>';
+
+    let body = '';
+
+    // Vertical axis spine on the left
+    body += `<line class="axis-line" x1="${padL - 50}" y1="${padTop - 20}" x2="${padL - 50}" y2="${milestoneY[N - 1] + 20}"/>`;
+
+    // Milestone markers + labels (left side)
+    DATA.milestones.forEach((m, i) => {
+      const y = milestoneY[i];
+      // very faint horizontal grid line spanning the chart area
+      body += `<line x1="${padL}" y1="${y}" x2="${W - padR}" y2="${y}" stroke="rgba(255,255,255,0.04)" stroke-width="1" stroke-dasharray="2 6"/>`;
+      // tick + dot on the spine
+      body += `<line class="m-tick" x1="${padL - 60}" y1="${y}" x2="${padL - 40}" y2="${y}"/>`;
+      body += `<circle class="m-dot" cx="${padL - 50}" cy="${y}" r="6"/>`;
+      // date (italic gold, right-aligned)
+      body += `<text class="m-date"  text-anchor="end" x="${padL - 68}" y="${y + 5}">${m.date}</text>`;
+      // name (right-aligned, below date)
+      body += `<text class="m-title" text-anchor="end" x="${padL - 68}" y="${y + 22}">${m.name}</text>`;
+    });
+
+    // Streams — top → bottom, converging at the WIN
+    people.forEach((p) => {
+      const sx = p.colX, sy = p.entryY, ex = winX, ey = winY;
+      const dy = ey - sy;
+      const c1x = sx;
+      const c1y = sy + Math.max(140, dy * 0.45);
+      const c2x = ex + (sx - ex) * 0.18;
+      const c2y = ey - Math.max(220, dy * 0.30);
+      const d = `M ${sx} ${sy} C ${c1x} ${c1y}, ${c2x} ${c2y}, ${ex} ${ey}`;
+      const animDelay = 0.4 + p.joinedAt * 0.22 + p.idx * 0.03;
+      body += `<path class="stream" d="${d}" stroke="${p.color}"
+                style="color:${p.color}; animation-delay:${animDelay}s"
+                id="stream-${p.idx}"/>`;
+    });
+
+    // Entry dots, photos, rotated name labels
+    people.forEach((p) => {
+      const initials = p.name.split(/\s+/).slice(0,2).map(n => n[0]).join('').toUpperCase();
+      const animDelay = 0.4 + p.joinedAt * 0.22 + p.idx * 0.03;
+      // colored entry dot
+      body += `<circle class="entry-dot" cx="${p.colX}" cy="${p.entryY}" r="11"
+                fill="${p.color}" style="animation-delay:${animDelay - 0.05}s"/>`;
+      if (p.photoUrl) {
+        body += `<image class="entry-photo" href="${p.photoUrl}"
+                  x="${p.colX - 9}" y="${p.entryY - 9}" width="18" height="18"
+                  preserveAspectRatio="xMidYMid slice"
+                  clip-path="url(#ph-${p.idx})"
+                  style="animation-delay:${animDelay}s"/>`;
+      } else {
+        body += `<text class="entry-init" x="${p.colX}" y="${p.entryY + 3}" font-size="10"
+                  style="animation-delay:${animDelay + 0.05}s">${initials}</text>`;
+      }
+      // Rotated name label — extends UP from above the entry dot.
+      // text-anchor=start + rotate(-90) places text reading bottom-to-top.
+      body += `<g style="opacity:0; animation: fade 0.6s ease-out forwards ${animDelay + 0.1}s">
+        <text class="entry-label-v" text-anchor="start"
+              transform="translate(${p.colX} ${p.entryY - 16}) rotate(-90)"
+              x="0" y="4">${p.name}</text>
+      </g>`;
+    });
+
+    // Particles travelling along streams
+    people.forEach((p) => {
+      const dur = 4 + (p.idx % 3);
+      const delay = 2.6 + p.idx * 0.08;
+      body += `
+        <circle class="particle" r="3" fill="white" style="color:${p.color}">
+          <animateMotion dur="${dur}s" repeatCount="indefinite" begin="${delay}s">
+            <mpath href="#stream-${p.idx}"/>
+          </animateMotion>
+        </circle>`;
+    });
+
+    // WIN burst at the bottom
+    body += `<circle class="win-bg" cx="${winX}" cy="${winY}" r="160"/>`;
+    body += `<circle class="win-ring" cx="${winX}" cy="${winY}" r="30"/>`;
+    body += `<circle class="win-ring" cx="${winX}" cy="${winY}" r="30" style="animation-delay:2.5s"/>`;
+    body += `<circle class="win-ring" cx="${winX}" cy="${winY}" r="30" style="animation-delay:2.8s"/>`;
+
+    if (DATA.customerLogoUrl) {
+      body += `<circle cx="${winX}" cy="${winY}" r="38" fill="#fff"
+                opacity="0" style="animation: pop 0.6s cubic-bezier(.34,1.56,.64,1) forwards 2.3s; transform-box: fill-box; transform-origin: center;"/>`;
+      body += `<image class="win-logo" href="${DATA.customerLogoUrl}"
+                x="${winX - 34}" y="${winY - 34}" width="68" height="68"
+                preserveAspectRatio="xMidYMid meet"
+                clip-path="url(#logoClip)"/>`;
+    } else {
+      const starPath = (cx, cy, r1, r2, n=5) => {
+        const pts = [];
+        for (let k = 0; k < n * 2; k++) {
+          const r = k % 2 === 0 ? r1 : r2;
+          const a = Math.PI / 2 + k * Math.PI / n;
+          pts.push(`${cx + Math.cos(a)*r},${cy - Math.sin(a)*r}`);
+        }
+        return 'M ' + pts.join(' L ') + ' Z';
+      };
+      body += `<path class="win-star" d="${starPath(winX, winY, 42, 18)}"/>`;
+    }
+
+    body += `<text class="win-text" text-anchor="middle" x="${winX}" y="${winY + 95}" style="font-size:40px">${DATA.accountName || 'WON'}</text>`;
+    body += `<text class="win-sub"  text-anchor="middle" x="${winX}" y="${winY + 122}">Account Won</text>`;
+
+    return defs + body;
+  }
+
+  // ---------- Render ----------
+  const svg = document.getElementById('streams');
+  svg.setAttribute('viewBox', `0 0 ${W} ${H}`);
+
+  function render() {
+    svg.innerHTML = buildSVG();
+    requestAnimationFrame(() => requestAnimationFrame(placeMoments));
+    scheduleConfetti();
+  }
+
+  // ---------- Story moment flags (binary search by Y) ----------
+  function placeMoments() {
+    people.forEach(p => {
+      if (!p.moments || !p.moments.length) return;
+      const path = document.getElementById('stream-' + p.idx);
+      if (!path) return;
+      const total = path.getTotalLength();
+      if (!total) return;
+
+      p.moments.forEach((mom, mi) => {
+        const targetY = milestoneY[Math.min(mom.at, N - 1)];
+        if (Math.abs(targetY - p.entryY) < 8) return;
+
+        // binary search for length where y ≈ targetY
+        let lo = 0, hi = total;
+        for (let it = 0; it < 28; it++) {
+          const mid = (lo + hi) / 2;
+          const pt  = path.getPointAtLength(mid);
+          if (pt.y < targetY) lo = mid; else hi = mid;
+        }
+        const pt = path.getPointAtLength((lo + hi) / 2);
+
+        const ns = 'http://www.w3.org/2000/svg';
+        const g  = document.createElementNS(ns, 'g');
+        g.setAttribute('class', 'moment');
+        g.setAttribute('transform', `translate(${pt.x} ${pt.y})`);
+        g.style.animationDelay = (3 + p.idx * 0.06 + mi * 0.1) + 's';
+        g.innerHTML = `
+          <circle class="moment-pulse" r="8" fill="${p.color}" opacity="0.5"/>
+          <circle r="7" fill="#0a0e1a" stroke="${p.color}" stroke-width="2"/>
+          <circle r="2.8" fill="${p.color}"/>
+        `;
+        g.addEventListener('mouseenter', e => showTip(p, mom.text, e));
+        g.addEventListener('mousemove',  e => moveTip(e));
+        g.addEventListener('mouseleave', hideTip);
+        svg.appendChild(g);
+      });
+    });
+  }
+
+  // ---------- Tooltip ----------
+  const tip = document.getElementById('tip');
+  function showTip(p, text, e) {
+    tip.innerHTML = `<div class="tip-who" style="color:${p.color}">${p.name} · ${p.role}</div>${text}`;
+    moveTip(e);
+    tip.classList.add('show');
+  }
+  function moveTip(e) {
+    const x = e.clientX + 14;
+    const y = e.clientY - 12;
+    tip.style.left = Math.min(window.innerWidth - 300, x) + 'px';
+    tip.style.top  = Math.max(10, y) + 'px';
+  }
+  function hideTip() { tip.classList.remove('show'); }
+
+  // ---------- Confetti finale ----------
+  let confettiTimer = null;
+  function scheduleConfetti() {
+    if (confettiTimer) clearTimeout(confettiTimer);
+    // wait until streams have converged (~3s for the longest)
+    confettiTimer = setTimeout(burstConfetti, 3000);
+  }
+  function burstConfetti() {
+    const layer = document.getElementById('confetti');
+    layer.innerHTML = '';
+    const colors = ['#f4d568', '#e8b933', '#ffffff', ...people.map(p => p.color)];
+    const total  = 90;
+    // origin in % within the inner div (same coord system as the SVG)
+    const ox = (winX / W) * 100;
+    const oy = (winY / H) * 100;
+    for (let i = 0; i < total; i++) {
+      const c = document.createElement('div');
+      c.className = 'confetti-bit';
+      c.style.left = ox + '%';
+      c.style.top  = oy + '%';
+      c.style.background = colors[i % colors.length];
+      // Burst outward and UPWARD from the WIN at the bottom (fireworks style).
+      // angle 0..π sweeps the upper half-circle; sin() gives positive verticals
+      // which we negate so confetti rises into the chart instead of falling off.
+      const angle = Math.random() * Math.PI;
+      const dist  = 260 + Math.random() * 500;
+      const dx = Math.cos(angle) * dist;
+      const dy = -Math.sin(angle) * dist + Math.random() * 120;
+      c.style.setProperty('--dx',  dx + 'px');
+      c.style.setProperty('--dy',  dy + 'px');
+      c.style.setProperty('--rot', (Math.random() * 720 - 360) + 'deg');
+      c.style.animationDelay = (Math.random() * 0.4) + 's';
+      layer.appendChild(c);
+    }
+    // tidy up after animation
+    setTimeout(() => { layer.innerHTML = ''; }, 3500);
+  }
+
+  // ---------- Replay button ----------
+  document.getElementById('replay').addEventListener('click', () => {
+    // clear confetti immediately so it doesn't double up
+    document.getElementById('confetti').innerHTML = '';
+    render();
+  });
+
+  // Initial render
+  render();
+
+  // ============ KEY MOMENTS SLIDER ============
+  (function() {
+    const moments = DATA.keyMoments || [];
+    const section = document.getElementById('momentsSection');
+    if (!moments.length) { section.style.display = 'none'; return; }
+
+    let mIdx = 0;
+    const wrap      = document.getElementById('momentsWrap');
+    const dotsEl    = document.getElementById('mDots');
+    const filmstrip = document.getElementById('mFilmstrip');
+
+    // Build slides, dots, thumbnails from data.
+    // A moment with a `videoUrl` renders as <video> (autoplays muted, loops, uses imageUrl as poster).
+    wrap.innerHTML = moments.map((m, i) => {
+      const activeCls = i === 0 ? ' active' : '';
+      if (m.videoUrl) {
+        return `<video class="m-slide${activeCls}" muted loop playsinline preload="metadata" poster="${m.imageUrl || ''}">
+                  <source src="${m.videoUrl}" type="video/mp4">
+                </video>`;
+      }
+      return `<div class="m-slide${activeCls}" style="background-image:url('${m.imageUrl}')"></div>`;
+    }).join('');
+    dotsEl.innerHTML = moments.map((_, i) =>
+      `<button class="m-dot${i === 0 ? ' active' : ''}" data-idx="${i}" type="button" aria-label="Go to moment ${i + 1}"></button>`
+    ).join('');
+    filmstrip.innerHTML = moments.map((m, i) =>
+      `<div class="m-thumb${i === 0 ? ' active' : ''}" data-idx="${i}" style="background-image:url('${m.imageUrl}')" role="button" tabindex="0" aria-label="${(m.title || 'moment').replace(/"/g,'&quot;')}"></div>`
+    ).join('');
+
+    function show(i) {
+      const n = moments.length;
+      i = ((i % n) + n) % n;
+      mIdx = i;
+      const slides  = wrap.querySelectorAll('.m-slide');
+      const dots    = dotsEl.querySelectorAll('.m-dot');
+      const thumbs  = filmstrip.querySelectorAll('.m-thumb');
+      slides.forEach((s, idx) => s.classList.toggle('active', idx === i));
+      dots.forEach((d, idx) => d.classList.toggle('active', idx === i));
+      thumbs.forEach((t, idx) => t.classList.toggle('active', idx === i));
+
+      // Pause every video; play the active one if it's a <video>
+      slides.forEach((s, idx) => {
+        if (s.tagName === 'VIDEO') {
+          if (idx === i) { s.currentTime = 0; s.play().catch(() => {}); }
+          else            { s.pause(); }
+        }
+      });
+
+      const m = moments[i];
+      document.getElementById('mDate').textContent    = m.date || '';
+      document.getElementById('mTitle').textContent   = m.title || '';
+      document.getElementById('mCaption').textContent = m.caption || '';
+      document.getElementById('mCounter').textContent = `${i + 1} / ${n}`;
+      document.getElementById('mPeople').innerHTML =
+        (m.people || []).map(p => `<span class="m-chip">${p}</span>`).join('');
+
+      // re-trigger text fade
+      [document.querySelector('.m-overlay'), document.querySelector('.m-meta-below')].forEach(el => {
+        if (!el) return;
+        el.classList.remove('m-meta-anim');
+        void el.offsetWidth;
+        el.classList.add('m-meta-anim');
+      });
+
+      // scroll active thumbnail into view
+      if (thumbs[i] && thumbs[i].scrollIntoView) {
+        thumbs[i].scrollIntoView({ behavior: 'smooth', block: 'nearest', inline: 'center' });
+      }
+    }
+
+    document.getElementById('mPrev').addEventListener('click', () => show(mIdx - 1));
+    document.getElementById('mNext').addEventListener('click', () => show(mIdx + 1));
+    dotsEl.addEventListener('click', e => {
+      const b = e.target.closest('.m-dot');
+      if (b) show(parseInt(b.dataset.idx, 10));
+    });
+    filmstrip.addEventListener('click', e => {
+      const t = e.target.closest('.m-thumb');
+      if (t) show(parseInt(t.dataset.idx, 10));
+    });
+    filmstrip.addEventListener('keydown', e => {
+      if (e.key === 'Enter' || e.key === ' ') {
+        const t = e.target.closest('.m-thumb');
+        if (t) { e.preventDefault(); show(parseInt(t.dataset.idx, 10)); }
+      }
+    });
+
+    // Arrow-key nav (when slider is roughly in view)
+    document.addEventListener('keydown', e => {
+      if (e.target.matches('input, textarea, [contenteditable]')) return;
+      const rect = section.getBoundingClientRect();
+      const inView = rect.top < window.innerHeight && rect.bottom > 0;
+      if (!inView) return;
+      if (e.key === 'ArrowLeft')  show(mIdx - 1);
+      if (e.key === 'ArrowRight') show(mIdx + 1);
+    });
+
+    // Touch swipe
+    let touchX = 0, touchY = 0;
+    const stage = section.querySelector('.moments-stage');
+    stage.addEventListener('touchstart', e => {
+      touchX = e.touches[0].clientX;
+      touchY = e.touches[0].clientY;
+    }, { passive: true });
+    stage.addEventListener('touchend', e => {
+      const dx = e.changedTouches[0].clientX - touchX;
+      const dy = e.changedTouches[0].clientY - touchY;
+      if (Math.abs(dx) > 50 && Math.abs(dx) > Math.abs(dy)) {
+        show(mIdx + (dx < 0 ? 1 : -1));
+      }
+    }, { passive: true });
+
+    show(0);
+  })();
+</script>
+</body>
+</html>
