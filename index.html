@@ -1078,7 +1078,7 @@
       `<div class="m-thumb${i === 0 ? ' active' : ''}" data-idx="${i}" style="background-image:url('${m.imageUrl}')" role="button" tabindex="0" aria-label="${(m.title || 'moment').replace(/"/g,'&quot;')}"></div>`
     ).join('');
 
-    function show(i) {
+    function show(i, scrollThumb = true) {
       const n = moments.length;
       i = ((i % n) + n) % n;
       mIdx = i;
@@ -1113,9 +1113,14 @@
         el.classList.add('m-meta-anim');
       });
 
-      // scroll active thumbnail into view
-      if (thumbs[i] && thumbs[i].scrollIntoView) {
-        thumbs[i].scrollIntoView({ behavior: 'smooth', block: 'nearest', inline: 'center' });
+      // scroll active thumbnail into view — but only horizontally within the filmstrip,
+      // and only on user-driven slide changes (not the initial render, which would
+      // drag the whole page down to the slider on load).
+      if (scrollThumb && thumbs[i]) {
+        const strip = filmstrip;
+        const t = thumbs[i];
+        const target = t.offsetLeft - (strip.clientWidth - t.clientWidth) / 2;
+        strip.scrollTo({ left: Math.max(0, target), behavior: 'smooth' });
       }
     }
 
@@ -1161,7 +1166,8 @@
       }
     }, { passive: true });
 
-    show(0);
+    // Initial render — pass false so we DON'T auto-scroll the page to the filmstrip.
+    show(0, false);
   })();
 </script>
 </body>
