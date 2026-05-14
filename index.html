@@ -542,7 +542,6 @@
     </div>
     <div class="m-meta-below">
       <p class="m-caption" id="mCaption"></p>
-      <div class="m-people" id="mPeople"></div>
     </div>
     <div class="m-dots" id="mDots"></div>
     <div class="m-filmstrip" id="mFilmstrip"></div>
@@ -584,7 +583,7 @@
     { "date": "Jul 2023", "name": "First Visit to HQ" },
     { "date": "Aug 2023", "name": "Finding the Camera" },
     { "date": "Apr 2024", "name": "Amado Meeting" },
-    { "date": "May 2024", "name": "Hot Plug Hackathon" },
+    { "date": "May 2024", "name": "Hot Plug Hackathon, Recovery Driver & Lens" },
     { "date": "Sep 2024", "name": "Walmart DC Access" },
     { "date": "Dec 2024", "name": "Pilot PO · 1000 Robots" },
     { "date": "Apr 2025", "name": "Impedance Mismatch" },
@@ -1102,8 +1101,6 @@
       document.getElementById('mTitle').textContent   = m.title || '';
       document.getElementById('mCaption').textContent = m.caption || '';
       document.getElementById('mCounter').textContent = `${i + 1} / ${n}`;
-      document.getElementById('mPeople').innerHTML =
-        (m.people || []).map(p => `<span class="m-chip">${p}</span>`).join('');
 
       // re-trigger text fade
       [document.querySelector('.m-overlay'), document.querySelector('.m-meta-below')].forEach(el => {
